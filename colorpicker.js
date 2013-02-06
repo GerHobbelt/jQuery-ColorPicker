@@ -17,14 +17,14 @@
 				livePreview: true,
 				flat: false
 			},
-			fillRGBFields = function  (hsb, cal) {
+			fillRGBFields = function (hsb, cal) {
 				var rgb = HSBToRGB(hsb);
 				$(cal).data('colorpicker').fields
 					.eq(1).val(rgb.r).end()
 					.eq(2).val(rgb.g).end()
 					.eq(3).val(rgb.b).end();
 			},
-			fillHSBFields = function  (hsb, cal) {
+			fillHSBFields = function (hsb, cal) {
 				$(cal).data('colorpicker').fields
 					.eq(4).val(hsb.h).end()
 					.eq(5).val(hsb.s).end()
@@ -402,7 +402,7 @@
 					if (opt.color.substring(0, 4) == "rgb(") {
 						opt.color = HexToHSB(RGBstringToHex(opt.color));
 					} else {
-						opt.color = HexToHSB(opt.color);
+					opt.color = HexToHSB(opt.color);
 					}
 				} else if (opt.color.r != undefined && opt.color.g != undefined && opt.color.b != undefined) {
 					opt.color = RGBToHSB(opt.color);
@@ -433,11 +433,11 @@
 							cal.appendTo(document.body);
 						}
 						options.fields = cal
-							.find('input')
-							.bind('keyup', keyDown)
-							.bind('change', change)
-							.bind('blur', blur)
-							.bind('focus', focus);
+											.find('input')
+												.bind('keyup', keyDown)
+												.bind('change', change)
+												.bind('blur', blur)
+												.bind('focus', focus);
 						cal
 							.find('span').bind('mousedown', downIncrement).end()
 							.find('>div.colorpicker_current_color').bind('click', restoreOriginal);
@@ -491,7 +491,7 @@
 					if (col.substring(0, 4) == "rgb(") {
 						col = HexToHSB(RGBstringToHex(col));
 					} else {
-						col = HexToHSB(col);
+					col = HexToHSB(col);
 					}
 				} else if (col.r != undefined && col.g != undefined && col.b != undefined) {
 					col = RGBToHSB(col);
