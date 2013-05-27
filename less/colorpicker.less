@@ -10,6 +10,15 @@
 	border: 2px solid #474848;
 }
 
+.colorpicker_selectable(@s) {
+	-webkit-user-select: @s;
+	-khtml-user-select: @s;
+	-moz-user-select: @s;
+	-ms-user-select: @s;
+	-o-user-select: @s;
+	user-select: @s;
+}
+
 .colorpicker {
 	position: absolute;
 	width: 350px + 180px;
@@ -21,6 +30,7 @@
 	border: 3px solid #BABABA;
 	background-color: #121212;
 	.colorpicker_border-radius(5px);
+	.colorpicker_selectable(none);
 	.colorpicker_color {
 		position: absolute;
 		left: 9px;
@@ -103,6 +113,7 @@
 		padding: 0;
 		border: 1px solid #2f2f2f;
 		background-color: #121212;
+		.colorpicker_selectable(text);
 	}
 	.colorpicker_hex {
 		position: absolute;
@@ -135,12 +146,6 @@
 		margin-top: 2px;
 		margin-left: 5px;
 		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: -moz-none;
-		-ms-user-select: none;
-		-o-user-select: none;
-		user-select: none;
 	}
 	.colorpicker_field {
 		position: absolute;
@@ -158,12 +163,6 @@
 			overflow: hidden;
 			cursor: n-resize;
 			-webkit-touch-callout: none;
-			-webkit-user-select: none;
-			-khtml-user-select: none;
-			-moz-user-select: -moz-none;
-			-ms-user-select: none;
-			-o-user-select: none;
-			user-select: none;
 		}
 	}
 	.colorpicker_rgb_r {
