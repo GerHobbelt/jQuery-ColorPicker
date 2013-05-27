@@ -2,7 +2,7 @@
 	var ColorPicker = function () {
 		var
 			charMin = 65,
-			tpl = '<div class="colorpicker"><div class="colorpicker_color"><div><div></div></div></div><div class="colorpicker_hue"><div></div></div><div class="colorpicker_new_color"></div><div class="colorpicker_current_color"></div><div class="colorpicker_hex"><label for="hex">#</label><input type="text" maxlength="6" size="6" id="hex" /></div><div class="colorpicker_rgb_r colorpicker_field"><label for="rbg_r">R</label><input type="text" maxlength="3" size="3" id="rgb_r" /><span></span></div><div class="colorpicker_rgb_g colorpicker_field"><label for="rbg_g">G</label><input type="text" maxlength="3" size="3" id="rgb_g" /><span></span></div><div class="colorpicker_rgb_b colorpicker_field"><label for="rbg_b">B</label><input type="text" maxlength="3" size="3" id="rgb_b" /><span></span></div><div class="colorpicker_hsb_h colorpicker_field"><label for="hsb_h">H</label><input type="text" maxlength="3" size="3" id="hsb_h" /><span></span></div><div class="colorpicker_hsb_s colorpicker_field"><label for="hsb_s">S</label><input type="text" maxlength="3" size="3" id="hsb_s" /><span></span></div><div class="colorpicker_hsb_b colorpicker_field"><label for="hsb_b">B</label><input type="text" maxlength="3" size="3" id="hsb_b" /><span></span></div><div class="colorpicker_submit"></div></div>',
+			tpl = '<div class="colorpicker"><div class="colorpicker_color"><div><div></div></div></div><div class="colorpicker_hue"><div></div></div><div class="colorpicker_new_color"></div><div class="colorpicker_current_color"></div><div class="colorpicker_hex"><label for="hex">#</label><input type="text" maxlength="6" size="6" id="hex" /></div><div class="colorpicker_rgb_r colorpicker_field"><label for="rbg_r">R</label><input type="text" maxlength="3" size="3" id="rgb_r" /><span></span></div><div class="colorpicker_rgb_g colorpicker_field"><label for="rbg_g">G</label><input type="text" maxlength="3" size="3" id="rgb_g" /><span></span></div><div class="colorpicker_rgb_b colorpicker_field"><label for="rbg_b">B</label><input type="text" maxlength="3" size="3" id="rgb_b" /><span></span></div><div class="colorpicker_hsb_h colorpicker_field"><label for="hsb_h">H</label><input type="text" maxlength="3" size="3" id="hsb_h" /><span></span></div><div class="colorpicker_hsb_s colorpicker_field"><label for="hsb_s">S</label><input type="text" maxlength="3" size="3" id="hsb_s" /><span></span></div><div class="colorpicker_hsb_b colorpicker_field"><label for="hsb_b">B</label><input type="text" maxlength="3" size="3" id="hsb_b" /><span></span></div><div class="colorpicker_list"></div><div class="colorpicker_submit"></div></div>',
 			defaults = {
 				eventName: 'click',
 				onShow: function () {},
@@ -12,7 +12,8 @@
 				onSubmit: function () {},
 				color: 'ff0000',
 				livePreview: true,
-				flat: false
+				flat: false,
+				fixColors: ["#ffffff", "#ffccc9", "#ffce93", "#fffc9e", "#ffffc7", "#9aff99", "#96fffb", "#cdffff", "#cbcefb", "#cfcfcf", "#fd6864", "#fe996b", "#fffe65", "#fcff2f", "#67fd9a", "#38fff8", "#68fdff", "#9698ed", "#c0c0c0", "#fe0000", "#f8a102", "#ffcc67", "#f8ff00", "#34ff34", "#68cbd0", "#34cdf9", "#6665cd", "#9b9b9b", "#cb0000", "#f56b00", "#ffcb2f", "#ffc702", "#32cb00", "#00d2cb", "#3166ff", "#6434fc", "#656565", "#9a0000", "#ce6301", "#cd9934", "#999903", "#009901", "#329a9d", "#3531ff", "#6200c9", "#343434", "#680100", "#963400", "#986536", "#646809", "#036400", "#34696d", "#00009b", "#303498", "#000000", "#330001", "#643403", "#663234", "#343300", "#013300", "#003532", "#010066", "#340096"]
 			},
 			fillRGBFields = function  (hsb, cal) {
 				var rgb = HSBToRGB(hsb);
@@ -211,6 +212,7 @@
 				cal.data('colorpicker').origColor = col;
 				setCurrentColor(col, cal.get(0));
 				cal.data('colorpicker').onSubmit(col, HSBToHex(col), HSBToRGB(col), cal.data('colorpicker').el, cal.data('colorpicker').parent);
+				cal.hide();
 			},
 			show = function (ev) {
 				var cal = $('#' + $(this).data('colorpickerId'));
@@ -435,10 +437,10 @@
 						}
 						options.fields = cal
 							.find('input')
-							.on('keyup', keyDown)
-							.on('change', change)
-							.on('blur', blur)
-							.on('focus', focus);
+								.on('keyup', keyDown)
+								.on('change', change)
+								.on('blur', blur)
+								.on('focus', focus);
 						cal
 							.find('span').on('mousedown', downIncrement).end()
 							.find('>div.colorpicker_current_color').on('click', restoreOriginal);
@@ -458,6 +460,18 @@
 						fillRGBFields(options.color, cal.get(0));
 						fillHSBFields(options.color, cal.get(0));
 						fillHexFields(options.color, cal.get(0));
+						if(options.fixColors) {
+							var $list = cal.find(".colorpicker_list");
+							$.each(options.fixColors, function(i, h) {
+								$list.append($('<a href="#"></a>')
+									.css("background-color", h)
+									.on("click", function() {
+										options.parent.ColorPickerSetColor($(this).css('background-color'), true);
+										return false;
+									})
+								)
+							});
+						}
 						setHue(options.color, cal.get(0));
 						setSelector(options.color, cal.get(0));
 						setCurrentColor(options.color, cal.get(0));
@@ -487,7 +501,7 @@
 					}
 				});
 			},
-			setColor: function(col) {
+			setColor: function(col, callOnChange) {
 				if (typeof col == 'string') {
 					if (col.substring(0, 4) == "rgb(") {
 						col = HexToHSB(RGBstringToHex(col));
@@ -513,6 +527,9 @@
 						setSelector(col, cal.get(0));
 						setCurrentColor(col, cal.get(0));
 						setNewColor(col, cal.get(0));
+						if(callOnChange) {
+							cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col),  cal.data('colorpicker').parent ]);
+						}
 					}
 				});
 			}
