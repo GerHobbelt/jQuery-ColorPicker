@@ -396,21 +396,41 @@
 				setSelector(col, cal.get(0));
 				setHue(col, cal.get(0));
 				setNewColor(col, cal.get(0));
+				cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col),  cal.data('colorpicker').parent]);
+			},
+			parseColor = function(color) {
+				if (typeof color == 'string') {
+					if(color.substring(0, 4) == "rgb(") {
+						return HexToHSB(RGBstringToHex(color));
+					} else {
+						return HexToHSB(color);
+					}
+				} else if (color.r !== undefined && color.g !== undefined && color.b !== undefined) {
+					return RGBToHSB(color);
+				} else if (color.h !== undefined && color.s !== undefined && color.b !== undefined) {
+					return fixHSB(color);
+				} else {
+					return null;
+				}
+			},
+			setFixColor = function(color) {
+				var col;
+				if((col = parseColor($(this).css("background-color"))) !== null) {
+					var cal = $(this).parent().parent();
+					cal.data('colorpicker').color = col;
+					fillRGBFields(col, cal.get(0));
+					fillHexFields(col, cal.get(0));
+					fillHSBFields(col, cal.get(0));
+					setSelector(col, cal.get(0));
+					setHue(col, cal.get(0));
+					setNewColor(col, cal.get(0));
+					cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col),  cal.data('colorpicker').parent]);
+				}
 			};
 		return {
 			init: function (opt) {
 				opt = $.extend({}, defaults, opt||{});
-				if (typeof opt.color == 'string') {
-					if (opt.color.substring(0, 4) == "rgb(") {
-						opt.color = HexToHSB(RGBstringToHex(opt.color));
-					} else {
-						opt.color = HexToHSB(opt.color);
-					}
-				} else if (opt.color.r !== undefined && opt.color.g !== undefined && opt.color.b !== undefined) {
-					opt.color = RGBToHSB(opt.color);
-				} else if (opt.color.h !== undefined && opt.color.s !== undefined && opt.color.b !== undefined) {
-					opt.color = fixHSB(opt.color);
-				} else {
+				if((opt.color = parseColor(opt.color)) === null) {
 					return this;
 				}
 				return this.each(function () {
@@ -465,10 +485,7 @@
 							$.each(options.fixColors, function(i, h) {
 								$list.append($('<a href="#"></a>')
 									.css("background-color", h)
-									.on("click", function() {
-										options.parent.ColorPickerSetColor($(this).css('background-color'), true, true);
-										return false;
-									})
+									.on("click", setFixColor)
 								)
 							});
 						}
@@ -501,7 +518,7 @@
 					}
 				});
 			},
-			setColor: function(col, callOnChange, keepPrevious) {
+			setColor: function(col) {
 				if (typeof col == 'string') {
 					if (col.substring(0, 4) == "rgb(") {
 						col = HexToHSB(RGBstringToHex(col));
@@ -525,13 +542,8 @@
 						fillHexFields(col, cal.get(0));
 						setHue(col, cal.get(0));
 						setSelector(col, cal.get(0));
-						if(!keepPrevious) {
-							setCurrentColor(col, cal.get(0));
-						}
+						setCurrentColor(col, cal.get(0));
 						setNewColor(col, cal.get(0));
-						if(callOnChange) {
-							cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col),  cal.data('colorpicker').parent ]);
-						}
 					}
 				});
 			}
