@@ -436,6 +436,7 @@
 					setNewColor(col, cal.get(0));
 					cal.data('colorpicker').onChange.apply(cal, [col, HSBToHex(col), HSBToRGB(col),  cal.data('colorpicker').parent]);
 				}
+				return false;
 			};
 		return {
 			init: function (opt) {
@@ -537,6 +538,31 @@
 					}
 				});
 			},
+			destroyPicker: function() {
+				return this.each( function () {
+					var $this, id, cal, options;
+					$this = $(this);
+					id = $this.data("colorpickerId");
+					if(id) {
+						$this.ColorPickerHide();
+						$(document)
+							.off('mouseup', upHue)
+							.off('mousemove', moveHue)
+							.off('mouseup', upIncrement)
+							.off('mousemove', moveIncrement)
+							.off('mouseup', upSelector)
+							.off('mousemove', moveSelector)
+							.off('mousedown', hide);
+						cal = $("#" + id);
+						var options = cal.data("colorpicker");
+						if(!options.flat) {
+							$this.off(options.eventName, show);
+						}
+						$this.removeData("colorpickerId");
+						cal.remove();
+					}
+				});
+			},
 			setColor: function(col) {
 				if (typeof col == 'string') {
 					if (col.substring(0, 4) == "rgb(") {
@@ -577,6 +603,7 @@
 		ColorPicker: ColorPicker.init,
 		ColorPickerHide: ColorPicker.hidePicker,
 		ColorPickerShow: ColorPicker.showPicker,
-		ColorPickerSetColor: ColorPicker.setColor
+		ColorPickerSetColor: ColorPicker.setColor,
+		ColorPickerDestroy: ColorPicker.destroyPicker
 	});
 })(jQuery);
