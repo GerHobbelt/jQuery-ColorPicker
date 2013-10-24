@@ -263,7 +263,7 @@
 
 .colorpicker .colorpicker_none {
 	position: absolute;
-	right: 42px;
+	left: 292px;
 	top: 139px;
 	width: 22px;
 	height: 22px;
@@ -274,7 +274,7 @@
 .colorpicker .colorpicker_submit
 {
 	position: absolute;
-	right: 10px;
+	left: 319px;
 	top: 139px;
 	width: 22px;
 	height: 22px;
