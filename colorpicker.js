@@ -207,7 +207,8 @@
 				return false;
 			},
 			changeHue = function(ev) {
-				var y = $(this).offset().top, preview = ev.data.cal.data('colorpicker').livePreview;
+				var y = $(this).offset().top,
+                    preview = ev.data.cal.data('colorpicker').livePreview;
 				change.apply(
 					ev.data.cal.data('colorpicker')
 						.fields
@@ -517,8 +518,7 @@
 						cal.attr('id', id).attr('data-parent', $(this).attr('id'));
 						if (options.flat) {
 							cal.appendTo(this).show();
-						}
-						else {
+						} else {
 							cal.appendTo(document.body);
 						}
 						options.fields = cal
