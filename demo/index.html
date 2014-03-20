@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <link href='http://fonts.googleapis.com/css?family=Lilita+One' rel='stylesheet' type='text/css'>
     <link href="css/page.css" rel="stylesheet" type="text/css" media="all">
-    <link href="css/colorpicker.css" rel="stylesheet" type="text/css" media="all">
+    <link href="../css/colorpicker.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
     <a href="http://github.com/you">
@@ -145,9 +145,26 @@
             <pre>
     $('#colorselector3').ColorPicker({
         showNone: true,
-        fixColors: ["#ffffff", "#ffccc9", "#ffce93", "#fffc9e", "#ffffc7", "#9aff99", "#96fffb", "#cdffff", "#cbcefb", "#cfcfcf", "#fd6864", "#fe996b", "#fffe65", "#fcff2f", "#67fd9a", "#38fff8", "#68fdff", "#9698ed", "#c0c0c0", "#fe0000", "#f8a102", "#ffcc67", "#f8ff00", "#34ff34", "#68cbd0", "#34cdf9", "#6665cd", "#9b9b9b", "#cb0000", "#f56b00", "#ffcb2f", "#ffc702", "#32cb00", "#00d2cb", "#3166ff", "#6434fc", "#656565", "#9a0000", "#ce6301", "#cd9934", "#999903", "#009901", "#329a9d", "#3531ff", "#6200c9", "#343434", "#680100", "#963400", "#986536", "#646809", "#036400", "#34696d", "#00009b", "#303498", "#000000", "#330001", "#643403", "#663234", "#343300", "#013300", "#003532", "#010066", "#340096"],
+        fixColors: ["#ffffff", "#ffccc9", "#ffce93", "#fffc9e", 
+                    "#ffffc7", "#9aff99", "#96fffb", "#cdffff", 
+                    "#cbcefb", "#cfcfcf", "#fd6864", "#fe996b", 
+                    "#fffe65", "#fcff2f", "#67fd9a", "#38fff8", 
+                    "#68fdff", "#9698ed", "#c0c0c0", "#fe0000", 
+                    "#f8a102", "#ffcc67", "#f8ff00", "#34ff34", 
+                    "#68cbd0", "#34cdf9", "#6665cd", "#9b9b9b", 
+                    "#cb0000", "#f56b00", "#ffcb2f", "#ffc702", 
+                    "#32cb00", "#00d2cb", "#3166ff", "#6434fc", 
+                    "#656565", "#9a0000", "#ce6301", "#cd9934", 
+                    "#999903", "#009901", "#329a9d", "#3531ff", 
+                    "#6200c9", "#343434", "#680100", "#963400", 
+                    "#986536", "#646809", "#036400", "#34696d", 
+                    "#00009b", "#303498", "#000000", "#330001", 
+                    "#643403", "#663234", "#343300", "#013300", 
+                    "#003532", "#010066", "#340096"],
         onSubmit: function(hsb, hex, rgb, el, parent) {
-            $('#colorselector3 div').css('backgroundColor', hex ? '#' + hex : 'transparent');
+            $('#colorselector3 div').css('backgroundColor', hex 
+                    ? '#' + hex 
+                    : 'transparent');
             $(el).ColorPickerHide();
         },
         onChange: function (hsb, hex, rgb) {
@@ -159,24 +176,24 @@
         </article>
 	</div>
 	<script src="js/jquery.js"></script>
-    <script src="js/colorpicker.js"></script>
+    <script src="../js/colorpicker.js"></script>
 	<script>
-		$(function(){
+		$(function () {
             var widt = false;
             $('#colorpickerholder').ColorPicker({flat: true});
             $('#colorpickerholder2').ColorPicker({
                 flat: true,
                 color: '#EFEFEF',
-                onSubmit: function(hsb, hex, rgb) {
+                onSubmit: function (hsb, hex, rgb) {
                     $('#colorselector div').css('backgroundColor', '#' + hex);
                 }
             });
-            $('#colorselector').on('click', function() {
+            $('#colorselector').on('click', function () {
                 $('#colorpickerholder2').stop().animate({height: widt ? 0 : 173}, 500);
                 widt = !widt;
             });
             $('#colorpickerfield').ColorPicker({
-                onSubmit: function(hsb, hex, rgb, el, parent) {
+                onSubmit: function (hsb, hex, rgb, el, parent) {
                     $(el).val(hex);
                     $(el).ColorPickerHide();
                 },
@@ -184,7 +201,7 @@
                     $(this).ColorPickerSetColor(this.value);
                 }
             })
-            .on('keyup', function(){
+            .on('keyup', function () {
                 $(this).ColorPickerSetColor(this.value);
             });
             $('#colorselector2').ColorPicker({
