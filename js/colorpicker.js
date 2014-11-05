@@ -2,7 +2,7 @@
 	var ColorPicker = function () {
 		var
 			charMin = 65,
-			tpl = '	<div class="colorpicker ui-datepicker">\
+			tpl = '<div class="colorpicker ui-datepicker">\
 						<div class="colorpicker_color">\
 							<div>\
 								<div>\
@@ -208,7 +208,7 @@
 			},
 			changeHue = function(ev) {
 				var y = $(this).offset().top,
-				preview = ev.data.cal.data('colorpicker').livePreview;
+				    preview = ev.data.cal.data('colorpicker').livePreview;
 				change.apply(
 					ev.data.cal.data('colorpicker')
 						.fields
